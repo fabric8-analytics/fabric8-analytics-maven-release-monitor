@@ -9,14 +9,11 @@ from f8a_worker.utils import TimedCommand
 from f8a_worker.errors import TaskError
 from selinon import StoragePool
 
-from .base import BaseHandler
 
+class MavenReleaseMonitor:
+    """Start the analysis."""
 
-class MavenReleasesAnalyses(BaseHandler):
-    """Trigger analysis of newly released maven packages."""
-
-    def execute(self):
-        """Start the analysis."""
+    def run(self):
         self.log.info("Checking maven index for new releases")
         maven_index_checker_dir = os.getenv('MAVEN_INDEX_CHECKER_PATH')
         maven_index_checker_data_dir = os.environ.get('MAVEN_INDEX_CHECKER_DATA_PATH',
@@ -100,3 +97,8 @@ class MavenReleasesAnalyses(BaseHandler):
 
         s3.set_last_offset(current_count)
         self.log.info("All new maven releases scheduled for analysis, exiting..")
+
+
+if __name__ == '__main__':
+    monitor = MavenReleaseMonitor()
+    monitor.run()
