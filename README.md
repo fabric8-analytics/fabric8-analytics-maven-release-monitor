@@ -1,0 +1,1 @@
+# fabric8-analytics-maven-release-monitor
